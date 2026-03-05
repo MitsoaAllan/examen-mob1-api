@@ -962,6 +962,7 @@ components:
           - OUT
     TransactionLabel:
       name: label
+      description: list of label ids
       required: false
       in: query
       schema:
