@@ -1095,6 +1095,9 @@ components:
         accountId:
           type: string
           format: uuid
+        goalId:
+          type: string
+          format: uuid
     Transaction:
       allOf:
         - $ref: "#/components/schemas/CreationTransaction"
