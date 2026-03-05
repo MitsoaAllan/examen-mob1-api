@@ -11,16 +11,25 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import type { Credentials, SignInResult, SignUpResult } from "../models/index";
-import { CredentialsFromJSON, CredentialsToJSON, SignInResultFromJSON, SignInResultToJSON, SignUpResultFromJSON, SignUpResultToJSON } from "../models/index";
+import type { SignInCredentials, SignInResult, SignUpCredentials, SignUpResult } from "../models/index";
+import {
+  SignInCredentialsFromJSON,
+  SignInCredentialsToJSON,
+  SignInResultFromJSON,
+  SignInResultToJSON,
+  SignUpCredentialsFromJSON,
+  SignUpCredentialsToJSON,
+  SignUpResultFromJSON,
+  SignUpResultToJSON,
+} from "../models/index";
 import * as runtime from "../runtime";
 
 export interface SignInRequest {
-  credentials?: Credentials;
+  signInCredentials?: SignInCredentials;
 }
 
 export interface SignUpRequest {
-  credentials?: Credentials;
+  signUpCredentials?: SignUpCredentials;
 }
 
 /**
@@ -28,9 +37,9 @@ export interface SignUpRequest {
  */
 export class AuthApi extends runtime.BaseAPI {
   /**
-   * Creates request options for signIn without sending the request
+   * Login with and existing account
    */
-  async signInRequestOpts(requestParameters: SignInRequest): Promise<runtime.RequestOpts> {
+  async signInRaw(requestParameters: SignInRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SignInResult>> {
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -39,21 +48,16 @@ export class AuthApi extends runtime.BaseAPI {
 
     let urlPath = `/auth/sign-in`;
 
-    return {
-      path: urlPath,
-      method: "POST",
-      headers: headerParameters,
-      query: queryParameters,
-      body: CredentialsToJSON(requestParameters["credentials"]),
-    };
-  }
-
-  /**
-   * Login with and existing account
-   */
-  async signInRaw(requestParameters: SignInRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SignInResult>> {
-    const requestOptions = await this.signInRequestOpts(requestParameters);
-    const response = await this.request(requestOptions, initOverrides);
+    const response = await this.request(
+      {
+        path: urlPath,
+        method: "POST",
+        headers: headerParameters,
+        query: queryParameters,
+        body: SignInCredentialsToJSON(requestParameters["signInCredentials"]),
+      },
+      initOverrides,
+    );
 
     return new runtime.JSONApiResponse(response, (jsonValue) => SignInResultFromJSON(jsonValue));
   }
@@ -67,9 +71,9 @@ export class AuthApi extends runtime.BaseAPI {
   }
 
   /**
-   * Creates request options for signUp without sending the request
+   * Create new account with basic user role
    */
-  async signUpRequestOpts(requestParameters: SignUpRequest): Promise<runtime.RequestOpts> {
+  async signUpRaw(requestParameters: SignUpRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SignUpResult>> {
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -78,21 +82,16 @@ export class AuthApi extends runtime.BaseAPI {
 
     let urlPath = `/auth/sign-up`;
 
-    return {
-      path: urlPath,
-      method: "POST",
-      headers: headerParameters,
-      query: queryParameters,
-      body: CredentialsToJSON(requestParameters["credentials"]),
-    };
-  }
-
-  /**
-   * Create new account with basic user role
-   */
-  async signUpRaw(requestParameters: SignUpRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SignUpResult>> {
-    const requestOptions = await this.signUpRequestOpts(requestParameters);
-    const response = await this.request(requestOptions, initOverrides);
+    const response = await this.request(
+      {
+        path: urlPath,
+        method: "POST",
+        headers: headerParameters,
+        query: queryParameters,
+        body: SignUpCredentialsToJSON(requestParameters["signUpCredentials"]),
+      },
+      initOverrides,
+    );
 
     return new runtime.JSONApiResponse(response, (jsonValue) => SignUpResultFromJSON(jsonValue));
   }
