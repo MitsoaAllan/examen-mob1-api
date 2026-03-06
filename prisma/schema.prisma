@@ -155,7 +155,6 @@ model Subscription {
 model Configuration {
   id                    String         @id @default(uuid())
   accountId             String
-  subscriptionId        String
   transactionReccurency Int
   transactionCountDays  Int
   loginWithoutPassword  Boolean
