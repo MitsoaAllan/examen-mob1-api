@@ -16,9 +16,8 @@ export class ConfigurationServices {
 
   public static async updateBasicConfiguration(accountId: string, basicConfiguration: BasicConfiguration) {
     const configuration: any = await this.getOne(accountId);
-
     return await getPrismaClient().configuration.update({
-      data: { ...configuration, ...basicConfiguration },
+      data: { currency: basicConfiguration.currency, loginWithoutPassword: basicConfiguration.loginWithoutPassword },
       where: { accountId, id: configuration.id },
       include: { subscription: true },
     });
@@ -26,6 +25,10 @@ export class ConfigurationServices {
 
   public static async updateTransactionConfiguration(accountId: string, transactionConfiguration: TransactionConfiguration) {
     const configuration: any = await this.getOne(accountId);
-    await getPrismaClient().configuration.update({ data: { ...configuration, ...transactionConfiguration }, where: { accountId, id: configuration.id } });
+    return await getPrismaClient().configuration.update({
+      data: { transactionCountDays: transactionConfiguration.countDays, transactionReccurency: transactionConfiguration.reccurency },
+      where: { accountId, id: configuration.id },
+      include: { subscription: true },
+    });
   }
 }

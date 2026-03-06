@@ -17,7 +17,6 @@ export class SubscriptionControllers {
   };
   static readonly createToken: RequestHandler = async (req, res, next) => {
     try {
-      const { token } = req.body || {};
       const accountId = (req as any).account.id;
       const subscription = await SubscriptionServices.createSubscriptionToken(accountId);
       const mappedData = SubscriptionMapper.toRest(subscription);

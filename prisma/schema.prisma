@@ -144,20 +144,20 @@ model ProjectTransaction {
 }
 
 model Subscription {
-  id              String        @id @default(uuid())
-  accountId       String
-  token           String
-  endingDate      DateTime
-  configurationId String
-  configurations  Configuration @relation(fields: [configurationId], references: [id])
+  id            String         @id @default(uuid())
+  accountId     String
+  token         String
+  endingDate    DateTime
+  configuration Configuration?
 }
 
 model Configuration {
-  id                    String         @id @default(uuid())
+  id                    String        @id @default(uuid())
   accountId             String
   transactionReccurency Int
   transactionCountDays  Int
   loginWithoutPassword  Boolean
   currency              String
-  subscription          Subscription[]
+  subscriptionId        String?       @unique
+  subscription          Subscription? @relation(fields: [subscriptionId], references: [id])
 }
