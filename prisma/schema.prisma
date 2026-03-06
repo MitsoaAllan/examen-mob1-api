@@ -142,3 +142,23 @@ model ProjectTransaction {
   project       Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
   wallet        Wallet?   @relation(fields: [walletId], references: [id], onDelete: SetNull)
 }
+
+model Subscription {
+  id              String        @id @default(uuid())
+  accountId       String
+  token           String
+  endingDate      DateTime
+  configurationId String
+  configurations  Configuration @relation(fields: [configurationId], references: [id])
+}
+
+model Configuration {
+  id                    String         @id @default(uuid())
+  accountId             String
+  subscriptionId        String
+  transactionReccurency Int
+  transactionCountDays  Int
+  loginWithoutPassword  Boolean
+  currency              String
+  subscription          Subscription[]
+}
