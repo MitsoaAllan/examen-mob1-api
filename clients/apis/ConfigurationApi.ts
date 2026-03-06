@@ -232,7 +232,7 @@ export class ConfigurationApi extends runtime.BaseAPI {
 
     headerParameters["Content-Type"] = "application/json";
 
-    let urlPath = `/account/{accountId}/transactionConfiguration`;
+    let urlPath = `/account/{accountId}/configuration/transaction`;
     urlPath = urlPath.replace(`{${"accountId"}}`, encodeURIComponent(String(requestParameters["accountId"])));
 
     const response = await this.request(

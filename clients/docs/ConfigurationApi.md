@@ -2,13 +2,13 @@
 
 All URIs are relative to _http://localhost:8080_
 
-| Method                                                                                   | HTTP request                                          | Description                                                                    |
-| ---------------------------------------------------------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------ |
-| [**addSubscription**](ConfigurationApi.md#addsubscription)                               | **POST** /account/{accountId}/subscribe               | Add subscription to the specified account with key                             |
-| [**generateSubsciptionToken**](ConfigurationApi.md#generatesubsciptiontoken)             | **POST** /account/{accountId}/subscription/token      | Genearte subscription token for a specified account                            |
-| [**getConfiguration**](ConfigurationApi.md#getconfiguration)                             | **GET** /account/{accountId}/configuration            | Get the current configuration                                                  |
-| [**updateBasicConfiguration**](ConfigurationApi.md#updatebasicconfiguration)             | **PUT** /account/{accountId}/configuration            | Update currency and loginWithoutPassword configuration for a specified account |
-| [**updateTransactionConfiguration**](ConfigurationApi.md#updatetransactionconfiguration) | **PUT** /account/{accountId}/transactionConfiguration | Get the current configuration                                                  |
+| Method                                                                                   | HTTP request                                           | Description                                                                    |
+| ---------------------------------------------------------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| [**addSubscription**](ConfigurationApi.md#addsubscription)                               | **POST** /account/{accountId}/subscribe                | Add subscription to the specified account with key                             |
+| [**generateSubsciptionToken**](ConfigurationApi.md#generatesubsciptiontoken)             | **POST** /account/{accountId}/subscription/token       | Genearte subscription token for a specified account                            |
+| [**getConfiguration**](ConfigurationApi.md#getconfiguration)                             | **GET** /account/{accountId}/configuration             | Get the current configuration                                                  |
+| [**updateBasicConfiguration**](ConfigurationApi.md#updatebasicconfiguration)             | **PUT** /account/{accountId}/configuration             | Update currency and loginWithoutPassword configuration for a specified account |
+| [**updateTransactionConfiguration**](ConfigurationApi.md#updatetransactionconfiguration) | **PUT** /account/{accountId}/configuration/transaction | Get the current configuration                                                  |
 
 ## addSubscription
 

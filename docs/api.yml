@@ -857,7 +857,7 @@ paths:
               schema:
                 allOf:
                   - $ref: "#/components/schemas/Configuration"
-  /account/{accountId}/transactionConfiguration:
+  /account/{accountId}/configuration/transaction:
     put:
       tags:
         - configuration
