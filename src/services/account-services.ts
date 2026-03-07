@@ -36,4 +36,19 @@ export class AccountServices {
   static async getOneById(accountId: string) {
     return await getPrismaClient().account.findUnique({ where: { id: accountId } });
   }
+
+  static async getUserById(userId: string) {
+    const user = await this.getOneById(userId);
+    if (!user) return null;
+
+    const { password, ...userWithoutPassword } = user;
+    return userWithoutPassword;
+  }
+
+  static async updateSubscription(accountId: string, subscriptionType: "ESSENTIAL" | "PREMIUM") {
+    return await getPrismaClient().account.update({
+      where: { id: accountId },
+      data: { subscriptionType },
+    });
+  }
 }
