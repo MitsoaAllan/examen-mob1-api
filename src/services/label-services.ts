@@ -41,6 +41,7 @@ export class LabelServices {
       take: pageSize,
       skip: pageSize * (page - 1),
       where,
+      orderBy: { createdAt: "desc" },
     });
 
     const count = await getPrismaClient().label.count({ where });

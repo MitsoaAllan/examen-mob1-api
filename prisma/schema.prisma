@@ -7,16 +7,22 @@ datasource db {
   url      = "file:./dev.db"
 }
 
+enum SubscriptionType {
+  ESSENTIAL
+  PREMIUM
+}
+
 model Account {
-  id           String        @id @default(uuid())
-  username     String        @unique
-  password     String
-  goals        Goal[]
-  labels       Label[]
-  projects     Project[]
-  transactions Transaction[]
-  wallets      Wallet[]
-  roles        UserRole[]
+  id               String           @id @default(uuid())
+  username         String           @unique
+  password         String
+  subscriptionType SubscriptionType @default(ESSENTIAL)
+  goals            Goal[]
+  labels           Label[]
+  projects         Project[]
+  transactions     Transaction[]
+  wallets          Wallet[]
+  roles            UserRole[]
 }
 
 model Role {

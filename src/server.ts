@@ -30,7 +30,7 @@ export const server = async () => {
     app.use("/", swaggerRouter);
 
     app.listen(PORT, HOST, () => {
-      console.log(`Server running on port ${PORT}`);
+      console.log(`Server running on port ${PORT} host : ${HOST}`);
     });
 
     app.use(errorHandler);
