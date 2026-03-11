@@ -6,6 +6,7 @@
 | ---------- | ------ |
 | `id`       | string |
 | `username` | string |
+| `email`    | string |
 
 ## Example
 
@@ -16,6 +17,7 @@ import type { SignUpResult } from "";
 const example = {
   id: null,
   username: null,
+  email: null,
 } satisfies SignUpResult;
 
 console.log(example);
