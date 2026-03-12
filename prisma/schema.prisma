@@ -12,6 +12,7 @@ model Account {
   username     String        @unique
   email        String        @default("")
   password     String
+  googleId     String?        @unique
   goals        Goal[]
   labels       Label[]
   projects     Project[]
