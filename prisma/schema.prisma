@@ -13,17 +13,18 @@ enum SubscriptionType {
 }
 
 model Account {
-  id               String           @id @default(uuid())
-  username         String           @unique
-  email            String           @default("")
-  password         String
+  id           String        @id @default(uuid())
+  username     String        @unique
+  email        String        @default("")
+  password     String
   subscriptionType SubscriptionType @default(ESSENTIAL)
-  goals            Goal[]
-  labels           Label[]
-  projects         Project[]
-  transactions     Transaction[]
-  wallets          Wallet[]
-  roles            UserRole[]
+  googleId     String?        @unique
+  goals        Goal[]
+  labels       Label[]
+  projects     Project[]
+  transactions Transaction[]
+  wallets      Wallet[]
+  roles        UserRole[]
 }
 
 model Role {
