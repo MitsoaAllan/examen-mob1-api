@@ -106,7 +106,7 @@ export class GoogleAuthService {
       if (account) {
         account = await (prisma.account as any).update({
           where: { id: account.id },
-          data: { googleId: googleUser.sub },
+          data: { googleId: googleUser.sub, picture: googleUser.picture ?? undefined },
         });
       }
     }
@@ -142,6 +142,7 @@ export class GoogleAuthService {
           username: finalUsername,
           email: googleUser.email,
           password: hashedPassword,
+          picture: googleUser.picture ?? null,
         },
       });
     }

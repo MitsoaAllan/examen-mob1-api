@@ -19,6 +19,7 @@ model Account {
   password     String
   subscriptionType SubscriptionType @default(ESSENTIAL)
   googleId     String?        @unique
+  picture      String?
   goals        Goal[]
   labels       Label[]
   projects     Project[]
