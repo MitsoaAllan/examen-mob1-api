@@ -41,7 +41,7 @@ export const server = async () => {
     app.use("/account/:accountId/subscription", securityHandler, subscriptionRouter);
     app.use("/", swaggerRouter);
 
-    app.listen(PORT, HOST, () => {
+    app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
 
