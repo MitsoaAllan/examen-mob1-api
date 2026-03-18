@@ -26,6 +26,7 @@ export class WalletServices {
     const getWalletById = await getPrismaClient().wallet.findFirst({ where: { id: walletId, accountId } });
     if (!getWalletById) throw new ApiError(`Wallet with id=${walletId} not found`, 404);
 
+    getWalletById.haveAutomaticIncome = automaticIncome.type === "MENSUAL";
     getWalletById.automaticIncomeAmount = automaticIncome.amount;
     getWalletById.automaticIncomeDay = automaticIncome.paymentDay;
     getWalletById.isActive = automaticIncome.type === "MENSUAL";
