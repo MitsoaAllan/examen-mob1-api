@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon --watch './*' --exec ts-node src/index.ts",
+    "dev": "nodemon --watch './*' --exec 'ts-node -r tsconfig-paths/register src/index.ts'",
     "format": "prettier --write \"./**/*.{ts,json}\" --config \".prettierrc.json\"",
     "migrate:dev": "prisma migrate dev",
     "migrate:prod": "prisma migrate prod",
