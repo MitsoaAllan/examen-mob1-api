@@ -22,7 +22,6 @@ import { walletRouter } from "./routes/wallet-routes";
 export const server = async () => {
   try {
     const PORT = Number(process.env.PORT) || 8080;
-    const HOST = process.env.HOST || '127.0.0.1'
 
     const app = express();
     app.use(express.json());
@@ -43,7 +42,7 @@ export const server = async () => {
     app.use("/", swaggerRouter);
 
     app.listen(PORT, HOST, () => {
-      console.log(`Server running on port ${PORT} host : ${HOST}`);
+      console.log(`Server running on port ${PORT}`);
     });
 
     app.use(errorHandler);
