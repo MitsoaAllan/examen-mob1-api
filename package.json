@@ -2,7 +2,7 @@
   "name": "posu-api",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "dev": "nodemon --watch './*' --exec ts-node src/index.ts",
     "format": "prettier --write \"./**/*.{ts,json}\" --config \".prettierrc.json\"",
