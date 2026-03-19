@@ -23,30 +23,22 @@ export class TransactionServices {
   }
 
   static async update(accountId: string, walletId: string, transactionId: string, transaction: PrismaTransaction, labels: Label[]) {
-    const getTransactionById = await getPrismaClient().transaction.findFirst({
-      where: { id: transactionId, accountId, walletId }
-    });
+    const getTransactionById = await getPrismaClient().transaction.findFirst({ where: { id: transactionId, accountId, walletId } });
+    if (!getTransactionById) throw new ApiError(`Transaction with id=${transactionId} not found`, 404);
 
-    if (!getTransactionById) {
-      throw new ApiError(`Transaction with id = ${ transactionId } not found`, 404);
-    }
-
-    if (new Date(transaction.date).getTime() <= new Date().getTime() &&
-      (transaction.amount !== getTransactionById.amount || transaction.type !== getTransactionById.type)) {
-
+    if (new Date(transaction.date).getTime() <= new Date().getTime() && transaction.amount && transaction.amount !== getTransactionById.amount) {
+      const diff = transaction.amount - getTransactionById.amount;
+      console.log(transaction.amount);
+      console.log(diff);
       const currentWallet = await WalletServices.getOneById(accountId, walletId);
-
-      currentWallet.amount -= getTransactionById.amount * (getTransactionById.type === "IN" ? 1 : -1);
-
-      currentWallet.amount += transaction.amount * (transaction.type === "IN" ? 1 : -1);
-
-      await getPrismaClient().wallet.update({
-        data: currentWallet,
-        where: { accountId, id: walletId }
-      });
+      if (transaction.type === "IN") currentWallet.amount += diff;
+      else currentWallet.amount -= diff;
+      console.log(currentWallet.amount);
+      await getPrismaClient().wallet.update({ data: currentWallet, where: { accountId, id: walletId } });
     }
 
     const mappedLabelsIds = await LabelValidator.list(accountId, labels);
+
     return await getPrismaClient().transaction.update({
       data: { ...transaction, labels: { set: mappedLabelsIds } },
       where: { id: transactionId, accountId, walletId },
@@ -61,30 +53,23 @@ export class TransactionServices {
   }
 
   static async deleteOneById(accountId: string, walletId: string, transactionId: string) {
-  const getTransactionById = await getPrismaClient().transaction.findFirst({
-    where: { id: transactionId, walletId, accountId },
-    include: { labels: true }
-  });
-
-  if (!getTransactionById) {
-    throw new ApiError(`Transaction with id=${transactionId} not found`, 404);
+    const getTransactionById = await getPrismaClient().transaction.findFirst({ where: { id: transactionId, walletId, accountId }, include: { labels: true } });
+    if (!getTransactionById) throw new ApiError(`Transaction with id=${transactionId} not found`, 404);
+    // update wallet
+    const wallet = await WalletServices.getOneById(accountId, walletId);
+    wallet.amount = wallet.amount + getTransactionById.amount * (getTransactionById.type === "OUT" ? 1 : -1);
+    await getPrismaClient().wallet.update({ data: wallet, where: { id: wallet.id, accountId: wallet.accountId } });
+    // update wallet
+    await getPrismaClient().transaction.delete({ where: { id: transactionId, walletId, accountId } });
+    return getTransactionById;
   }
-  const wallet = await WalletServices.getOneById(accountId, walletId);
-  wallet.amount = wallet.amount - getTransactionById.amount * (getTransactionById.type === "IN" ? 1 : -1);
-
-  await getPrismaClient().wallet.update({
-    data: wallet,
-    where: { id: wallet.id, accountId: wallet.accountId }
-  });
-  await getPrismaClient().transaction.delete({
-    where: { id: transactionId, walletId, accountId }
-  });
-
-  return getTransactionById;
-}
 
   static async getAll(accountId: string, query: TransactionFilters) {
-    const { page, pageSize, walletId, endingDate, label, maxAmount, minAmount, sort = "desc", sortBy = "date", startingDate, type } = query;
+    const { walletId, endingDate, label, maxAmount, minAmount, sort = "desc", sortBy = "date", startingDate, type } = query;
+
+
+    const page = Number(query.page) || 1;
+    const pageSize = Number(query.pageSize) || 10;
 
     return await getPrismaClient().transaction.findMany({
       take: pageSize,
