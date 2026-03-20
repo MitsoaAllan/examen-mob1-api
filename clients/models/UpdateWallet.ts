@@ -33,7 +33,7 @@ export interface UpdateWallet {
   description?: string;
   /**
    *
-   * @type {string}
+   * @type {UpdateWalletTypeEnum}
    * @memberof UpdateWallet
    */
   type?: UpdateWalletTypeEnum;

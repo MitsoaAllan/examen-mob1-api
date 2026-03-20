@@ -27,10 +27,13 @@ export class TransactionServices {
     if (!getTransactionById) throw new ApiError(`Transaction with id=${transactionId} not found`, 404);
 
     if (new Date(transaction.date).getTime() <= new Date().getTime() && transaction.amount && transaction.amount !== getTransactionById.amount) {
-      const diff = getTransactionById.amount - transaction.amount;
+      const diff = transaction.amount - getTransactionById.amount;
+      console.log(transaction.amount);
+      console.log(diff);
       const currentWallet = await WalletServices.getOneById(accountId, walletId);
       if (transaction.type === "IN") currentWallet.amount += diff;
       else currentWallet.amount -= diff;
+      console.log(currentWallet.amount);
       await getPrismaClient().wallet.update({ data: currentWallet, where: { accountId, id: walletId } });
     }
 
@@ -54,7 +57,7 @@ export class TransactionServices {
     if (!getTransactionById) throw new ApiError(`Transaction with id=${transactionId} not found`, 404);
     // update wallet
     const wallet = await WalletServices.getOneById(accountId, walletId);
-    wallet.amount = wallet.amount + getTransactionById.amount * (getTransactionById.type === "IN" ? 1 : -1);
+    wallet.amount = wallet.amount + getTransactionById.amount * (getTransactionById.type === "OUT" ? 1 : -1);
     await getPrismaClient().wallet.update({ data: wallet, where: { id: wallet.id, accountId: wallet.accountId } });
     // update wallet
     await getPrismaClient().transaction.delete({ where: { id: transactionId, walletId, accountId } });
@@ -62,7 +65,11 @@ export class TransactionServices {
   }
 
   static async getAll(accountId: string, query: TransactionFilters) {
-    const { page, pageSize, walletId, endingDate, label, maxAmount, minAmount, sort = "desc", sortBy = "date", startingDate, type } = query;
+    const { walletId, endingDate, label, maxAmount, minAmount, sort = "desc", sortBy = "date", startingDate, type } = query;
+
+
+    const page = Number(query.page) || 1;
+    const pageSize = Number(query.pageSize) || 10;
 
     return await getPrismaClient().transaction.findMany({
       take: pageSize,

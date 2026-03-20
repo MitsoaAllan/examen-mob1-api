@@ -21,7 +21,7 @@ import { mapValues } from "../runtime";
 export interface WalletAutomaticIncome {
   /**
    *
-   * @type {string}
+   * @type {WalletAutomaticIncomeTypeEnum}
    * @memberof WalletAutomaticIncome
    */
   type?: WalletAutomaticIncomeTypeEnum;

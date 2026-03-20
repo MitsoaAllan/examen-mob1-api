@@ -35,7 +35,7 @@ export interface Wallet {
   description?: string;
   /**
    *
-   * @type {string}
+   * @type {WalletTypeEnum}
    * @memberof Wallet
    */
   type?: WalletTypeEnum;
@@ -81,6 +81,12 @@ export interface Wallet {
    * @memberof Wallet
    */
   walletAutomaticIncome?: WalletAutomaticIncome;
+  /**
+   *
+   * @type {boolean}
+   * @memberof Wallet
+   */
+  isArchived?: boolean;
 }
 
 /**

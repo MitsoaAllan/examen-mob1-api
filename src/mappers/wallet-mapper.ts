@@ -11,6 +11,8 @@ export class WalletMapper {
       id: wallet.id,
       name: wallet.name,
       amount: wallet.amount,
+      color:wallet.color,
+      iconRef:wallet.iconRef,
       isActive: wallet.isActive,
       accountId: wallet.accountId,
       description: wallet.description,
@@ -20,6 +22,7 @@ export class WalletMapper {
         paymentDay: wallet.automaticIncomeDay,
         type: wallet.haveAutomaticIncome ? "MENSUAL" : "NOT_SPECIFIED",
       },
+      isArchived: wallet.isArchived,
     };
     return mapped;
   }
@@ -29,10 +32,13 @@ export class WalletMapper {
       accountId: wallet.accountId || "",
       amount: wallet.amount || 0,
       description: wallet.description || "",
+      color:wallet.color || "00ff00",
+      iconRef:wallet.iconRef || "wallet",
       id: wallet.id || "",
       name: wallet.name || "",
       isActive: !!wallet.isActive,
       type: wallet.type || "",
+      isArchived: wallet.isArchived || false
     };
     return mapped as PrismaWallet;
   }
@@ -42,10 +48,13 @@ export class WalletMapper {
       accountId,
       amount: wallet.amount || 0,
       description: wallet.description || "",
+      color:wallet.color || "00ff00",
+      iconRef:wallet.iconRef || "wallet",
       id: v4(),
       name: wallet.name || "",
       isActive: !!wallet.isActive,
       type: wallet.type || "",
+      isArchived: false
     };
     return mapped as PrismaWallet;
   }

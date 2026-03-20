@@ -16,6 +16,10 @@ const signIn = z.object({
 type SignUp = z.infer<typeof signUp>;
 type SignIn = z.infer<typeof signIn>;
 
+const updateSubscriptionSchema = z.object({
+  subscriptionType: z.enum(["ESSENTIAL", "PREMIUM"]),
+});
+
 export class AccountValidator {
   public static signUp(account: SignUp) {
     const result = signUp.safeParse(account);
@@ -23,6 +27,10 @@ export class AccountValidator {
   }
   public static signIn(account: SignIn) {
     const result = signIn.safeParse(account);
+    if (!result.success) throw new ApiError(z.prettifyError(result.error), 400);
+  }
+  public static updateSubscription(data: { subscriptionType: "ESSENTIAL" | "PREMIUM" }) {
+    const result = updateSubscriptionSchema.safeParse(data);
     if (!result.success) throw new ApiError(z.prettifyError(result.error), 400);
   }
 }

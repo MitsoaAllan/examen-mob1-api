@@ -1,5 +1,7 @@
 import * as cors from "cors";
 import * as express from "express";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 import { errorHandler, securityHandler } from "@/middlewares";
 import {
@@ -19,7 +21,7 @@ import { walletRouter } from "./routes/wallet-routes";
 
 export const server = async () => {
   try {
-    const PORT = process.env.PORT || 8080;
+    const PORT = Number(process.env.PORT) || 8080;
 
     const app = express();
     app.use(express.json());
